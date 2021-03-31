@@ -2,9 +2,9 @@ package tu.vvps;
 
 public class NumbersDTO {
 
-    private long userId;
-    private long pageId;
-    private long courseModuleId;
+    private final long userId;
+    private final long pageId;
+    private final long courseModuleId;
 
     public NumbersDTO(long userId, long pageId, long courseModuleId) {
         this.userId = userId;
@@ -16,24 +16,12 @@ public class NumbersDTO {
         return userId;
     }
 
-    public void setUserId(long userId) {
-        this.userId = userId;
-    }
-
     public long getPageId() {
         return pageId;
     }
 
-    public void setPageId(long pageId) {
-        this.pageId = pageId;
-    }
-
     public long getCourseModuleId() {
         return courseModuleId;
-    }
-
-    public void setCourseModuleId(long courseModuleId) {
-        this.courseModuleId = courseModuleId;
     }
 
     @Override

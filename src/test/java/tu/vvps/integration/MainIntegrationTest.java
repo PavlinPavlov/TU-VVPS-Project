@@ -44,7 +44,7 @@ public class MainIntegrationTest {
                                                        int userChoice,
                                                        String resultFile,
                                                        boolean testTrend,
-                                                       boolean testSD) {
+                                                       boolean testSD) throws Exception {
 
         String testInputFilePath = FileUtils.getFullPath(inputFile);
         String resultFilePath = FileUtils.getFullPath(resultFile);

@@ -23,23 +23,26 @@ public class Main {
 
     public static void main(String[] args) {
         Menu menu = new Menu(new ScannerWrapper(new Scanner(System.in)));
-        String filePath = args.length > 0 ? args[0] : DEFAULT_FILE;
-        StatisticReport report = new Main().analyze(menu, filePath);
 
-        logger.info("Duration: {}", report.getDuration());
-        logger.info("Trend:    {}", report.getTrends());
-        logger.info("SD:       {}", report.getDuration());
+        String filePath = args.length > 0 ? args[0] : DEFAULT_FILE;
+
+        try {
+            StatisticReport report = new Main().analyze(menu, filePath);
+            logger.info("Duration: {}", report.getDuration());
+            logger.info("Trend:    {}", report.getTrends());
+            logger.info("SD:       {}", report.getDuration());
+        } catch (Exception e) {
+            logger.error("File not found: ", e);
+        }
     }
 
-    public StatisticReport analyze(Menu menu, String filePath) {
+    public StatisticReport analyze(Menu menu, String filePath) throws Exception {
 
         File inputFile = new File(filePath);
 
         if (!inputFile.exists()) {
             String errorMessage = String.format("File: %s was not found!", filePath);
-            Exception exc = new IllegalArgumentException(errorMessage);
-            logger.error(errorMessage, exc);
-            System.exit(1);
+            throw new IllegalArgumentException(errorMessage);
         }
 
         ID typeOfId = menu.getInputForData();
