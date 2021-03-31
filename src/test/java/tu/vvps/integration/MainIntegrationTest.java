@@ -40,11 +40,11 @@ public class MainIntegrationTest {
             "TC-5-x.csv, 1, TC-5-2-Results.txt, true, true",
             "TC-5-x.csv, -1, TC-5-3-Results.txt, true, true"
     })
-    void givenTestFile_whenIngesting_shouldFilterLines(String inputFile,
-                                                       int userChoice,
-                                                       String resultFile,
-                                                       boolean testTrend,
-                                                       boolean testSD) throws Exception {
+    void givenTestFileAndUserInput_whenCalculating_shouldReturnDataFromResultFile(String inputFile,
+                                                                                  int userChoice,
+                                                                                  String resultFile,
+                                                                                  boolean testTrend,
+                                                                                  boolean testSD) throws Exception {
 
         String testInputFilePath = FileUtils.getFullPath(inputFile);
         String resultFilePath = FileUtils.getFullPath(resultFile);
