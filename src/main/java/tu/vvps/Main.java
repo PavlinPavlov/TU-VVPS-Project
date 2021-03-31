@@ -9,22 +9,29 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Scanner;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class Main {
 
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
     private static final String CATEGORY = "Wiki page updated";
-    private static final String FILE = ".\\data\\Logs_Course-A_StudentsActivities.csv";
+    private static final String DEFAULT_FILE = ".\\data\\Logs_Course-A_StudentsActivities.csv";
 
     public static void main(String[] args) {
         Menu menu = new Menu(new ScannerWrapper(new Scanner(System.in)));
-        String filePath = args.length > 0 ? args[0] : FILE;
-        new Main().start(menu, filePath);
+        String filePath = args.length > 0 ? args[0] : DEFAULT_FILE;
+        StatisticReport report = new Main().analyze(menu, filePath);
+
+        logger.info("Duration: {}", report.getDuration());
+        logger.info("Trend:    {}", report.getTrends());
+        logger.info("SD:       {}", report.getDuration());
     }
 
-    public void start(Menu menu, String filePath) {
+    public StatisticReport analyze(Menu menu, String filePath) {
 
         File inputFile = new File(filePath);
 
@@ -55,6 +62,7 @@ public class Main {
         try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(inputFile)))) {
 
             long start = System.nanoTime();
+
             Long[] idArray = br.lines()
                     .skip(1)
                     .map(ColumnTuple::parse)
@@ -63,16 +71,19 @@ public class Main {
                     .map(idExtraction)
                     .toArray(Long[]::new);
 
-            long stop = System.nanoTime();
-
             Statistic statistic = new Statistic();
 
-            logger.info("Fin: " + (stop - start));
-            logger.info("Trend: " + Arrays.toString(statistic.findTrend(idArray)));
-            logger.info("SD:    " + statistic.calculateSD(idArray));
+            double standardDeviation = statistic.calculateSD(idArray);
+            long[] trends = statistic.findTrend(idArray);
+
+            List<Long> trendList = Arrays.stream(trends).boxed().collect(Collectors.toList());
+
+            long stop = System.nanoTime();
+            return new StatisticReport((stop - start), trendList, standardDeviation);
 
         } catch (IOException e) {
             logger.error("Error in ingesting file:", e);
+            return new StatisticReport(0, Collections.emptyList(), 0.0);
         }
     }
 }
