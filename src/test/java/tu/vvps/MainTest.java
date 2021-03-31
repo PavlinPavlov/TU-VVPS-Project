@@ -1,4 +1,4 @@
-package tu.vvps.integration;
+package tu.vvps;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
