@@ -36,7 +36,7 @@ public class Main {
         }
     }
 
-    public StatisticReport analyze(Menu menu, String filePath) throws Exception {
+    public StatisticReport analyze(Menu menu, String filePath) {
 
         File inputFile = new File(filePath);
 

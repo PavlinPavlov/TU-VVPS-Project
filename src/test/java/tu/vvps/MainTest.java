@@ -21,7 +21,7 @@ public class MainTest {
     }
 
     @Test
-    void givenNonexistentFilePath_whenReading_shouldTrow() {
+    void givenNonexistentFilePath_whenReading_shouldThrow() {
         String filePath = "nonexistent.txt";
 
         String errorMessage = String.format("File: %s was not found!", filePath);
